@@ -1,33 +1,14 @@
 import './css/styles.css';
-
+let debounce = require('lodash.debounce');
 const DEBOUNCE_DELAY = 300;
 const inputCountry = document.querySelector("#search-box")
 const list = document.querySelector(".country-list")
 const countryInfo = document.querySelector(".country-info")
 
-inputCountry.addEventListener("input", fetchCountries )
-
-function fetchCountries(e) {
-    let name = inputCountry.value.toLowerCase();
-    // console.log(countryName);
-    // const resp = fetch(`${baseUrl}/name/${countryName}`);
-    const resp = fetch(`https://restcountries.com/v2//name/${name}?fields=name,capital,population,flags,languages`)
-    resp.then(response =>{
-        if (!response.ok) {
-            throw new Error()
-        }
-        console.log(response);
-   
-         return response.json()   
-    }) 
-        .then(data => {
-            const markUp = createMarkUp(data)
-            // countryInfo.insertAdjacentHTML("beforeend", markUp);
-            countryInfo.innerHTML = markUp;
-            console.log(markUp);
-        }).catch(err => console.log(err))
-    
-}
+inputCountry.addEventListener("input", debounce(fetchCountries, 3000, {
+  'leading': false,
+  'trailing': true,
+}));
 
 function createMarkUp(arr) {
     return arr.map(item => 
@@ -39,3 +20,35 @@ function createMarkUp(arr) {
     <span class="Languages">${(item.languages[0].nativeName)}</span>
     </li>`).join("")
 }
+
+
+
+function fetchCountries(e) {
+    let name = inputCountry.value.toLowerCase();
+    // console.log(countryName);
+    // const resp = fetch(`${baseUrl}/name/${countryName}`);
+    const resp = fetch(`https://restcountries.com/v2//name/${name}?fields=name,capital,population,flags,languages`)
+    resp.then(response =>{
+        if (!response.ok) {
+            throw new Error()
+        }
+        // console.log(response);
+   
+         return response.json()   
+    }) 
+        .then(data => {
+            const markUp = createMarkUp(data)
+            // countryInfo.insertAdjacentHTML("beforeend", markUp);
+            countryInfo.innerHTML = markUp;
+            console.log(markUp);
+        }).catch(err => console.log(err))
+
+    // console.log(inputCountry.value);
+    // if (inputCountry.value === "") {
+    //     console.log("Its work!");
+    // } else {console.log("Its does not work");}
+    
+    
+    
+}
+
