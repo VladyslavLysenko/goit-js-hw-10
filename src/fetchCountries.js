@@ -3,6 +3,7 @@ import { list } from "./index";
 import { countryInfo } from "./index";
 import { fullMarkUp } from "./index";
 import { shortMarkUp } from "./index";
+import Notiflix from 'notiflix';
 
 export function fetchCountries(e) {
     let name = inputCountry.value.toLowerCase().trim();
