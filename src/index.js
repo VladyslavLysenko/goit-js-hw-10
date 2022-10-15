@@ -8,7 +8,7 @@ export const list = document.querySelector(".country-list")
 export const countryInfo = document.querySelector(".country-info")
 
 export function fullMarkUp(arr) {
-    console.log(arr);
+    // console.log(arr);
     return arr.map(item => 
         ` <div class="main-title"><img src="${item.flags.svg}" alt="flag's ${item.name}" width="35px" height="30px"><h2 class="country">${item.name.common}</h2></div>
         <ul class="country-list-full">
