@@ -15,21 +15,22 @@ inputCountry.addEventListener("input", debounce(fetchCountries, DEBOUNCE_DELAY, 
 function fullMarkUp(arr) {
     console.log(arr);
     return arr.map(item => 
-        ` <div class="main-title"><img src="${item.flags.svg}" alt="flag's ${item.name}" width="35px" height="30px"><h2 class="country">${item.name}</h2></div>
+        ` <div class="main-title"><img src="${item.flags.svg}" alt="flag's ${item.name}" width="35px" height="30px"><h2 class="country">${item.name.common}</h2></div>
         <ul class="country-list-full">
         <li class="country-item-full"><h3 class="capital h-font">Capital:</h3> <p class="country-item-data">${item.capital}</p></li>
         <li class="country-item-full"><h3 class="population h-font">Population:</h3> <p class="country-item-data">${item.population}</p></li>
-        <li class="country-item-full"><h3 class="Languages h-font">Languages:</h3> <p class="country-item-data">${(item.languages[0].name)}</p></li>
+        <li class="country-item-full"><h3 class="Languages h-font">Languages:</h3> <p class="country-item-data">${Object.values(item.languages)}</p></li>
         </ul>`
        
     ).join("")
 }
 
 function shortMarkUp(arr) {
+       console.log(arr);
     return arr.map(item => 
         `<li class="item-country">
-        <img src="${item.flags.svg}" alt="flag's ${item.name}" width="35px" height="25px">
-        <p class="country-font">${item.name}</p>
+        <img src="${item.flags.svg}" alt="flag's ${item.name.common}" width="35px" height="25px">
+        <p class="country-font">${item.name.common}</p>
         </li>`
     ).join("")
 }
@@ -39,7 +40,6 @@ function shortMarkUp(arr) {
 
 
 function fetchCountries(e) {
-    console.log("hello");
     let name = inputCountry.value.toLowerCase().trim();
     // console.log(inputCountry.value);
     if (!name) {
@@ -48,7 +48,7 @@ function fetchCountries(e) {
         // console.log("Its work!");
     }
     else {
-        const resp = fetch(`https://restcountries.com/v2/name/${name}?fields=name,capital,population,flags,languages`)
+        const resp = fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,capital,population,flags,languages`)
         resp.then(response =>{
             if (!response.ok) {
                 list.innerHTML = "";  
