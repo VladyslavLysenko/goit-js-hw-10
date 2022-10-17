@@ -31,12 +31,27 @@ export function shortMarkUp(arr) {
 }
 
 
+export function manageRenderMarkUp(data) {
+    if (data.length === 1) {
+        list.innerHTML = "";
+        countryInfo.innerHTML = fullMarkUp(data);
+
+    } else if (data.length >= 2 && data.length <= 10 ) {
+        list.innerHTML = shortMarkUp(data);
+        countryInfo.innerHTML = "";
+
+    } else if (data.length > 10) {
+        Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
+        list.innerHTML = "";
+        countryInfo.innerHTML = "";
+    }   
+}
+
+
 inputCountry.addEventListener("input", debounce(fetchCountries, DEBOUNCE_DELAY, {
   'leading': false,
   'trailing': true,
 }));
-
-
 
 
 
